@@ -169,6 +169,13 @@
     }
   }
   window.addEventListener("hashchange", route);
+  // Account-аас өгөгдөл ирэх, нэвтрэх/гарахад нээлттэй хуудсыг шинэчилнэ.
+  const refreshData = () => {
+    if (page === "stats") NT.pages.renderStats();
+    if (page === "learn") NT.pages.renderLearn();
+  };
+  window.addEventListener("nt:synced", refreshData);
+  window.addEventListener("nt:account", refreshData);
 
   // ---------- Тохиргоо солигдоход ----------
   const RESTART_KEYS = new Set(["mode", "time", "words", "quoteLength", "punctuation", "numbers", "language", "customText", "customRandom", "customLimit", "paceCaret", "paceCaretValue", "lazyMode", "*"]);

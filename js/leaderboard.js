@@ -8,7 +8,7 @@ if (firebaseEnabled) {
   window.NT_FIREBASE_ON = true;
   const { db, onUser, getUser, displayName } = await import("./auth.js");
   const {
-    collection, doc, getDoc, getDocs, setDoc, query, orderBy, limit, serverTimestamp,
+    collection, doc, getDoc, getDocs, setDoc, query, orderBy, limit, serverTimestamp, where, getCountFromServer,
   } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
   const MIN_ACC = 90;     // жагсаалтад орох доод нарийвчлал
@@ -69,7 +69,9 @@ if (firebaseEnabled) {
     list.appendChild(loading);
     try {
       const snap = await getDocs(query(scoresRef(r), orderBy("wpm", "desc"), limit(10)));
-      renderRows(snap.docs.map(d => d.data()), list);
+      const rows = snap.docs.map(d => d.data());
+      renderRows(rows, list);
+      await addMyRank(r, rows, list);
     } catch (err) {
       console.warn("Leaderboard:", err && err.code);
       list.innerHTML = "";
@@ -77,6 +79,27 @@ if (firebaseEnabled) {
       li.textContent = t("boardError");
       list.appendChild(li);
     }
+  }
+
+  // Нэвтэрсэн хэрэглэгч эхний 10-д ороогүй бол өөрийн байрыг доор нь харуулна.
+  async function addMyRank(r, rows, list) {
+    const me = getUser();
+    if (!me || rows.some(x => x.uid === me.uid)) return;
+    const mine = await getDoc(doc(scoresRef(r), me.uid));
+    if (!mine.exists()) return;
+    const my = mine.data();
+    const better = await getCountFromServer(query(scoresRef(r), where("wpm", ">", my.wpm)));
+    const rank = better.data().count + 1;
+    list.appendChild(Object.assign(document.createElement("li"), { className: "gap", textContent: "…" }));
+    const li = document.createElement("li");
+    li.classList.add("me");
+    for (const [cls, text] of [["rank", `${rank}.`], ["name", my.name || "Nomad"], ["wpm", `${my.wpm} ${t("wpm")}`], ["acc", `${my.acc}%`]]) {
+      const span = document.createElement("span");
+      span.className = cls;
+      span.textContent = text;
+      li.appendChild(span);
+    }
+    list.appendChild(li);
   }
 
   // "Жагсаалт" хуудас (js/pages.js) нээгдэхэд.
@@ -135,6 +158,9 @@ if (firebaseEnabled) {
       await loadTop(last);
     }
   });
+
+  // Нэвтрэх, гарахад жагсаалтын хуудсыг дахин зурна (өөрийн байр харагдах).
+  onUser(() => { if (location.hash === "#leaderboard") window.NT.pages.renderBoard(); });
 
   // Хуудас "Жагсаалт" дээр нээгдсэн бол Firebase ачаалсны дараа дахин зурна.
   if (location.hash === "#leaderboard" && window.NT.pages) window.NT.pages.renderBoard();

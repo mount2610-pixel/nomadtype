@@ -158,6 +158,13 @@
     const hh = Math.floor(st.seconds / 3600), mm = Math.floor(st.seconds / 60) % 60, ss = st.seconds % 60;
     const pad = n => String(n).padStart(2, "0");
     root.appendChild(h("h2", {}, t("statsTitle")));
+    // Account-ын төлөв (Firebase тохируулсан үед).
+    if (window.NT_FIREBASE_ON) {
+      const acc = NT.account;
+      root.appendChild(h("div", { class: "account-box" + (acc ? " on" : "") },
+        h("span", {}, acc ? t("syncOn")(acc.name) : t("syncOff")),
+        acc ? null : h("button", { type: "button", class: "opt primary", onclick: () => $("authBtn").click() }, t("signIn"))));
+    }
     root.appendChild(h("div", { class: "stat-row" },
       [[t("started"), st.started], [t("completed"), st.completed], [t("typingTime"), `${pad(hh)}:${pad(mm)}:${pad(ss)}`]]
         .map(([k, v]) => h("div", { class: "stat" }, h("div", { class: "k" }, k), h("div", { class: "v" }, String(v))))));

@@ -301,6 +301,11 @@ kbd { font-family: var(--f-mono); background: var(--sub-alt); border-radius: 5px
 .lc-best { color: var(--sub); font-size: 12px; min-height: 15px; }
 .lesson-card.next .lc-best { color: var(--main); }
 
+.account-box { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px dashed var(--sub); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; color: var(--sub); font-size: 13.5px; line-height: 1.5; }
+.account-box.on { border-style: solid; border-color: var(--main); color: var(--text); }
+.account-box .opt { padding-inline: 16px; }
+.board-list li.gap { background: none !important; color: var(--sub); text-align: center; display: block; padding: 2px; }
+
 /* Premium хүлээлгийн жагсаалт */
 .waitlist { border: 1px dashed var(--sub); border-radius: 12px; padding: 16px 18px; margin-top: 18px; }
 .waitlist h3 { margin: 0 0 6px; color: var(--main) !important; font-size: 15px !important; font-weight: 600; }

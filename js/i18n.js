@@ -110,6 +110,8 @@ window.NT_I18N = {
     // Premium хүлээлгийн жагсаалт
     wlTitle: "NomadType Premium удахгүй",
     wlDesc: "Өдөр бүрийн сургалтын төлөвлөгөө, алдаатай товчлуурын шинжилгээ, ахицын дэлгэрэнгүй статистик, тэмцээн. Имэйлээ үлдээвэл нээгдэхэд хамгийн түрүүнд мэдэгдэж, эхний хэрэглэгчийн хөнгөлөлт авна.",
+    syncOn: n => `✓ ${n} — таны амжилт account дээр хадгалагдаж, бүх төхөөрөмж дээр харагдана.`,
+    syncOff: "Нэвтэрвэл амжилт тань account дээр хадгалагдаж, утас, компьютер аль алинаас харагдана. Дэлхийн жагсаалтад нэр тань гарна.",
     wlPlaceholder: "таны имэйл", wlButton: "Мэдэгдэл авах",
     wlDone: "Баярлалаа! Premium нээгдэхэд танд имэйлээр мэдэгдэнэ.", wlBad: "Имэйл хаяг буруу байна.", wlError: "Хадгалж чадсангүй. Дахин оролдоно уу.",
   },
@@ -210,6 +212,8 @@ window.NT_I18N = {
 
     wlTitle: "NomadType Premium is coming",
     wlDesc: "Daily practice plans, weak-key analysis, detailed progress stats and competitions. Leave your email to hear first when it opens and get an early-user discount.",
+    syncOn: n => `✓ ${n} — your results are saved to your account and visible on every device.`,
+    syncOff: "Sign in to save your results to your account, see them on any device and get your name on the global leaderboard.",
     wlPlaceholder: "your email", wlButton: "Notify me",
     wlDone: "Thank you! We'll email you when Premium opens.", wlBad: "That email address is not valid.", wlError: "Could not save. Please try again.",
   },

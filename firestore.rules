@@ -49,6 +49,23 @@ service cloud.firestore {
       allow read, update, delete: if false;
     }
 
+    // users/{uid} — хэрэглэгчийн хувийн өгөгдөл (дээд амжилт, түүх, хичээлийн ахиц).
+    // Зөвхөн тухайн хэрэглэгч өөрөө уншиж, бичнэ.
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'pbs', 'lessons', 'stats', 'history', 'updatedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 40
+        && request.resource.data.pbs is map
+        && request.resource.data.lessons is map
+        && request.resource.data.stats is map
+        && request.resource.data.history is list
+        && request.resource.data.history.size() <= 100
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
     // Бусад бүх зүйл хаалттай.
     match /{document=**} {
       allow read, write: if false;
