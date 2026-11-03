@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NomadType · Монгол, англи хурдан шивэлт</title>
+  <meta name="description" content="Монгол кирилл болон англи хэлээр хурдан шивэх чадвараа шалга. Хугацаа, үг, эх, зэн, өөрийн текст горим, загварууд, гарын зураг, дэлхийн жагсаалт. Free Mongolian and English typing test.">
+  <meta name="theme-color" content="#161A27">
+  <meta property="og:title" content="NomadType">
+  <meta property="og:description" content="Монгол, англи хурдан шивэлтийн тест · Mongolian and English typing test">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="timer-bar" id="timerBar" hidden></div>
+
+  <main class="wrap">
+    <!-- ===== Толгой ===== -->
+    <header class="top">
+      <a class="logo" href="#" aria-label="NomadType">
+        <img src="images/logo.svg" alt="" width="30" height="30">
+        <span><b>nomad<span>type</span></b><small data-t="tagline"></small></span>
+      </a>
+      <nav class="nav" aria-label="Menu">
+        <a href="#" class="nav-btn" data-page="test" data-icon="keyboard" data-t-title="navTest"></a>
+        <a href="#leaderboard" class="nav-btn" data-page="leaderboard" data-icon="crown" data-t-title="navBoard"></a>
+        <a href="#about" class="nav-btn" data-page="about" data-icon="info" data-t-title="navAbout"></a>
+        <a href="#settings" class="nav-btn" data-page="settings" data-icon="gear" data-t-title="navSettings"></a>
+      </nav>
+      <div class="header-right">
+        <button type="button" class="auth-btn" id="authBtn" hidden></button>
+        <a href="#stats" class="nav-btn" data-page="stats" data-icon="user" data-t-title="navStats"></a>
+        <div class="ui-lang" role="group" aria-label="Interface language">
+          <button type="button" data-ui="mn" aria-pressed="true">МН</button>
+          <button type="button" data-ui="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== Тестийн хуудас ===== -->
+    <section id="page-test" class="page">
+      <div class="test-config" id="testConfig">
+        <div class="tc-group" id="tcExtras">
+          <button type="button" data-toggle="punctuation"><b>@</b> <span data-t="punctuation"></span></button>
+          <button type="button" data-toggle="numbers"><b>#</b> <span data-t="numbers"></span></button>
+        </div>
+        <div class="tc-group">
+          <button type="button" data-mode="time"><i data-icon="clock"></i> <span data-t="time"></span></button>
+          <button type="button" data-mode="words"><b>A</b> <span data-t="words"></span></button>
+          <button type="button" data-mode="quote"><b>❝</b> <span data-t="quote"></span></button>
+          <button type="button" data-mode="zen"><i data-icon="zen"></i> <span data-t="zen"></span></button>
+          <button type="button" data-mode="custom"><b>✎</b> <span data-t="custom"></span></button>
+        </div>
+        <div class="tc-group" data-for="time">
+          <button type="button" data-time="15">15</button>
+          <button type="button" data-time="30">30</button>
+          <button type="button" data-time="60">60</button>
+          <button type="button" data-time="120">120</button>
+          <button type="button" data-time="custom" data-t-title="custom2"><b>✎</b></button>
+        </div>
+        <div class="tc-group" data-for="words">
+          <button type="button" data-words="10">10</button>
+          <button type="button" data-words="25">25</button>
+          <button type="button" data-words="50">50</button>
+          <button type="button" data-words="100">100</button>
+          <button type="button" data-words="custom" data-t-title="custom2"><b>✎</b></button>
+        </div>
+        <div class="tc-group" data-for="quote">
+          <button type="button" data-quote="all"></button>
+          <button type="button" data-quote="short"></button>
+          <button type="button" data-quote="medium"></button>
+          <button type="button" data-quote="long"></button>
+        </div>
+        <div class="tc-group" data-for="custom">
+          <button type="button" id="customChange" data-t="change"></button>
+        </div>
+      </div>
+
+      <div id="typingTest">
+        <div class="test-head">
+          <div class="live" id="liveRow">
+            <span class="live-item" id="liveProgress"></span>
+            <span class="live-item" id="liveWpm" hidden></span>
+            <span class="live-item" id="liveAcc" hidden></span>
+            <span class="live-item" id="liveBurst" hidden></span>
+          </div>
+          <button type="button" class="lang-btn" id="langBtn"><i data-icon="globe"></i> <span id="langBtnText"></span></button>
+          <div class="live-spacer"></div>
+        </div>
+        <p class="caps" id="capsWarn" hidden data-t="capsLock"></p>
+        <div class="stage" id="stage">
+          <div class="words" id="words">
+            <div class="words-inner" id="wordsInner">
+              <div class="caret caret-line idle" id="caret" aria-hidden="true"></div>
+              <div class="caret pace" id="paceCaret" aria-hidden="true" hidden></div>
+            </div>
+          </div>
+          <div class="focus-msg" data-t="clickToFocus"></div>
+          <input id="hidden" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Typing input">
+        </div>
+        <p class="warn" id="warn" role="status"></p>
+        <p class="zen-hint" id="zenHint" hidden data-t="zenHint"></p>
+        <div class="restart-row"><button type="button" class="icon-btn" id="restartBtn" data-icon="restart" data-t-title="restartHint"></button></div>
+        <div class="keymap" id="keymap" hidden></div>
+      </div>
+
+      <!-- Үр дүн -->
+      <div id="result" hidden>
+        <div class="res-top">
+          <div class="res-big">
+            <div class="stat" id="rWpmWrap"><div class="k" id="rUnit">wpm</div><div class="v" id="rWpm">0</div></div>
+            <div class="stat"><div class="k" data-t="acc"></div><div class="v" id="rAcc">0%</div></div>
+          </div>
+          <div class="res-chart"><canvas id="chart" aria-label="chart"></canvas></div>
+        </div>
+        <div class="res-more">
+          <div class="stat"><div class="k" data-t="testType"></div><div class="v sm" id="rType"></div></div>
+          <div class="stat" id="rOtherWrap" hidden><div class="k" data-t="other"></div><div class="v sm err" id="rOther"></div></div>
+          <div class="stat"><div class="k" data-t="raw"></div><div class="v" id="rRaw"></div></div>
+          <div class="stat"><div class="k" data-t="characters"></div><div class="v" id="rChars"></div></div>
+          <div class="stat"><div class="k" data-t="consistency"></div><div class="v" id="rCons"></div></div>
+          <div class="stat"><div class="k" data-t="timeLabel"></div><div class="v" id="rTime"></div></div>
+        </div>
+        <p class="pb-line" id="rPb"></p>
+        <p class="avg-line" id="rAvg" hidden></p>
+        <p class="src" id="rSrc" hidden></p>
+        <div class="res-actions">
+          <button type="button" class="icon-btn" id="nextBtn" data-icon="next" data-t-title="next"></button>
+          <button type="button" class="icon-btn" id="repeatBtn" data-icon="repeat" data-t-title="repeat"></button>
+          <button type="button" class="icon-btn" id="historyBtn" data-icon="list" data-t-title="history"></button>
+          <button type="button" class="icon-btn" id="practiceBtn" data-icon="target" data-t-title="practice"></button>
+          <button type="button" class="icon-btn" id="copyBtn" data-icon="copy" data-t-title="copy"></button>
+          <span class="ok-msg" id="copied" hidden data-t="copied"></span>
+        </div>
+        <div class="words-history" id="wordsHistory" hidden></div>
+
+        <!-- Дэлхийн жагсаалт: Firebase тохируулсан үед л харагдана (js/leaderboard.js) -->
+        <div class="board" id="board" hidden>
+          <h2 class="board-title" id="boardTitle"></h2>
+          <p class="board-note" id="boardNote"></p>
+          <ol class="board-list" id="boardList"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Бусад хуудсууд (js/pages.js зурна) ===== -->
+    <section id="page-settings" class="page doc" hidden><h1 class="page-title" data-t="settingsTitle"></h1><div id="settingsBody"></div></section>
+    <section id="page-about" class="page doc" hidden><div id="aboutBody"></div></section>
+    <section id="page-stats" class="page doc" hidden><div id="statsBody"></div></section>
+    <section id="page-leaderboard" class="page doc" hidden><div id="lbBody"></div></section>
+
+    <footer>
+      <div class="key-tips" id="keyTips"></div>
+      <div class="foot-row"><span data-t="footer"></span><span id="themeName"></span><span>© NomadType</span></div>
+    </footer>
+  </main>
+
+  <!-- Командын мөр -->
+  <div class="cmd" id="cmd" hidden>
+    <div class="cmd-box" role="dialog" aria-modal="true">
+      <input id="cmdInput" type="text" autocomplete="off" spellcheck="false" aria-label="Command">
+      <div class="cmd-list" id="cmdList" role="listbox"></div>
+    </div>
+  </div>
+
+  <!-- Өөрийн текст / тоо оруулах цонх -->
+  <div class="modal" id="modal" hidden>
+    <form class="modal-box" id="modalForm">
+      <h2 id="modalTitle"></h2>
+      <div id="modalBody"></div>
+      <div class="modal-actions">
+        <button type="button" class="opt" id="modalCancel" data-t="cancel"></button>
+        <button type="submit" class="opt primary" data-t="apply"></button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Скриптүүдийн дараалал чухал -->
+  <script src="js/data.js"></script>          <!-- үгс, эхүүд -->
+  <script src="js/i18n.js"></script>          <!-- орчуулга -->
+  <script src="js/core.js"></script>          <!-- туслахууд -->
+  <script src="js/config.js"></script>        <!-- тохиргоо, загварууд -->
+  <script src="js/sound.js"></script>         <!-- дуу -->
+  <script src="js/chart.js"></script>         <!-- график -->
+  <script src="js/keymap.js"></script>        <!-- гарын зураг -->
+  <script src="js/test.js"></script>          <!-- шивэлтийн тест -->
+  <script src="js/pages.js"></script>         <!-- тохиргоо, тухай, амжилт -->
+  <script src="js/commandline.js"></script>   <!-- командын мөр -->
+  <script src="js/app.js"></script>           <!-- бүгдийг холбоно -->
+  <!-- Нэвтрэх, жагсаалт (Firebase). Тохиргоогүй бол юу ч хийхгүй. -->
+  <script type="module" src="js/leaderboard.js"></script>
+</body>
+</html>

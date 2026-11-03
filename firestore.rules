@@ -1,0 +1,41 @@
+rules_version = '2';
+
+// NomadType — Cloud Firestore аюулгүй байдлын дүрэм.
+// Firebase Console → Firestore Database → Rules хэсэгт бүтнээр нь хуулж Publish дарна.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // leaderboards/{хэл_секунд}/scores/{uid}
+    match /leaderboards/{board}/scores/{uid} {
+      // Жагсаалтыг хүн бүр харна.
+      allow read: if true;
+
+      // Зөвхөн нэвтэрсэн хэрэглэгч өөрийн мөрийг, зөвхөн илүү өндөр дүнгээр бичнэ.
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && board in ['mn_15', 'mn_30', 'mn_60', 'en_15', 'en_30', 'en_60']
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'wpm', 'acc', 'updatedAt'])
+        && request.resource.data.uid == uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 40
+        && request.resource.data.wpm is int
+        && request.resource.data.wpm >= 0
+        && request.resource.data.wpm <= 250
+        && request.resource.data.acc is int
+        && request.resource.data.acc >= 90
+        && request.resource.data.acc <= 100
+        && request.resource.data.updatedAt == request.time
+        && (resource == null || request.resource.data.wpm > resource.data.wpm);
+
+      // Хэрэглэгч өөрийн мөрийг устгаж болно.
+      allow delete: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Бусад бүх зүйл хаалттай.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
