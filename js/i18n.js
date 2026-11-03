@@ -91,6 +91,27 @@ window.NT_I18N = {
     noteLowAcc: "Жагсаалтад орохын тулд нарийвчлал 90%-иас дээш байх ёстой.",
     noteQuote: "Жагсаалтад зөвхөн \"хугацаа\" горимын 15/30/60 сек, цэг таслал, тоогүй, залхуу горимгүй тест орно.",
     boardPageTitle: "Дэлхийн жагсаалт",
+
+    // Хичээл
+    navLearn: "Арван хуруугаар сурах", lesson: "хичээл",
+    learnTitle: "Арван хуруугаар бичиж сурах",
+    learnIntro: [
+      "Гар руугаа харалгүй, арван хуруугаараа бичиж сурвал хурд тань хэд дахин нэмэгдэнэ. Хичээл бүр хэдхэн шинэ товч заана.",
+      "Монгол гар: зүүн гарын хуруунууд й ы б ө, баруун гарынх р о л д дээр байрлана. Долоовор хуруунууд товгор тэмдэгтэй ө ба р товч дээр. Эрхий хуруугаар зай дарна.",
+      "Хичээл бүрт гарын зураг дараагийн дарах товчийг шараар, шинэ товчнуудыг хүрээгээр тодруулна. Тэнцэхийн тулд нарийвчлал 95%-иас дээш байх ёстой — эхлээд зөв, дараа нь хурдан.",
+    ],
+    lessonNeed: (w, a) => `Тэнцэх: ${w}+ үг/мин, ${a}%+ нарийвчлал`,
+    lessonPassed: "Тэнцлээ!", lessonFailed: "Дахиад нэг оролдоё",
+    lessonRetry: "Дахин", lessonNext: "Дараагийн хичээл →", lessonList: "Бүх хичээл", lessonBack: "← Хичээлүүд",
+    lessonProgress: (d, n, s, m) => `${n}-аас ${d} хичээл тэнцсэн · ★ ${s}/${m}`,
+    lessonNextTag: "дараагийн", lessonStart: "Эхлэх", lessonContinue: "Үргэлжлүүлэх",
+    courseMn: "Монгол гар (кирилл)", courseEn: "Англи гар (QWERTY)",
+
+    // Premium хүлээлгийн жагсаалт
+    wlTitle: "NomadType Premium удахгүй",
+    wlDesc: "Өдөр бүрийн сургалтын төлөвлөгөө, алдаатай товчлуурын шинжилгээ, ахицын дэлгэрэнгүй статистик, тэмцээн. Имэйлээ үлдээвэл нээгдэхэд хамгийн түрүүнд мэдэгдэж, эхний хэрэглэгчийн хөнгөлөлт авна.",
+    wlPlaceholder: "таны имэйл", wlButton: "Мэдэгдэл авах",
+    wlDone: "Баярлалаа! Premium нээгдэхэд танд имэйлээр мэдэгдэнэ.", wlBad: "Имэйл хаяг буруу байна.", wlError: "Хадгалж чадсангүй. Дахин оролдоно уу.",
   },
 
   en: {
@@ -172,5 +193,24 @@ window.NT_I18N = {
     noteLowAcc: "Accuracy must be above 90% to enter the leaderboard.",
     noteQuote: "Leaderboards only count \"time\" mode 15/30/60 s tests without punctuation, numbers or lazy mode.",
     boardPageTitle: "Leaderboards",
+
+    navLearn: "Learn touch typing", lesson: "lesson",
+    learnTitle: "Learn touch typing",
+    learnIntro: [
+      "Typing with all ten fingers, without looking at the keyboard, can make you several times faster. Each lesson teaches just a few new keys.",
+      "Mongolian layout: left fingers rest on й ы б ө and right fingers on р о л д. Your index fingers sit on ө and р, the keys with small bumps. Press space with your thumb.",
+      "During a lesson the keymap highlights the next key and outlines the new keys. To pass you need at least 95% accuracy — accuracy first, speed second.",
+    ],
+    lessonNeed: (w, a) => `To pass: ${w}+ wpm, ${a}%+ accuracy`,
+    lessonPassed: "Passed!", lessonFailed: "Let's try once more",
+    lessonRetry: "Retry", lessonNext: "Next lesson →", lessonList: "All lessons", lessonBack: "← Lessons",
+    lessonProgress: (d, n, s, m) => `${d} of ${n} lessons passed · ★ ${s}/${m}`,
+    lessonNextTag: "next", lessonStart: "Start", lessonContinue: "Continue",
+    courseMn: "Mongolian (Cyrillic)", courseEn: "English (QWERTY)",
+
+    wlTitle: "NomadType Premium is coming",
+    wlDesc: "Daily practice plans, weak-key analysis, detailed progress stats and competitions. Leave your email to hear first when it opens and get an early-user discount.",
+    wlPlaceholder: "your email", wlButton: "Notify me",
+    wlDone: "Thank you! We'll email you when Premium opens.", wlBad: "That email address is not valid.", wlError: "Could not save. Please try again.",
   },
 };

@@ -261,6 +261,55 @@ kbd { font-family: var(--f-mono); background: var(--sub-alt); border-radius: 5px
 .lb-bar .opt { width: auto; padding-inline: 14px; }
 .lb-bar .sep { width: 10px; }
 
+/* ---------- Арван хуруугийн хичээл ---------- */
+.lesson-bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; background: var(--sub-alt); border-radius: 10px; padding: 10px 16px; transition: opacity .25s; }
+.lesson-back { color: var(--sub); text-decoration: none; font-size: 13px; white-space: nowrap; }
+.lesson-back:hover { color: var(--text); }
+.lesson-info h2 { margin: 0; font-size: 16px; color: var(--main); font-weight: 600; }
+.lesson-info p { margin: 2px 0 0; font-size: 12.5px; color: var(--sub); }
+.typing .lesson-bar { opacity: .25; }
+.km-key.fresh { outline: 2px solid var(--main); outline-offset: -2px; color: var(--text); }
+.km-key.fresh.next { outline-color: var(--text); }
+
+.lesson-result { display: grid; grid-template-columns: auto 1fr auto; gap: 8px 22px; align-items: center; background: var(--sub-alt); border-radius: 12px; padding: 16px 20px; }
+.lr-stars { font-size: 34px; color: var(--sub); letter-spacing: 2px; }
+.lesson-result.passed .lr-stars { color: var(--main); }
+.lr-text h2 { margin: 0; font-size: 20px; color: var(--text); }
+.lr-text p { margin: 4px 0 0; color: var(--sub); font-size: 13px; }
+.lr-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.lr-actions .opt { padding-inline: 16px; text-decoration: none; }
+
+.learn-progress { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: center; background: var(--sub-alt); border-radius: 10px; padding: 14px 16px; margin: 6px 0 16px; }
+.lp-text { color: var(--text); font-size: 14px; }
+.lp-bar { grid-column: 1; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.lp-bar i { display: block; height: 100%; background: var(--main); border-radius: 4px; }
+.learn-progress .opt { grid-column: 2; grid-row: 1 / span 2; padding: 11px 22px; text-decoration: none; }
+.lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.lesson-card {
+  display: flex; flex-direction: column; gap: 8px; background: var(--sub-alt); border-radius: 10px; padding: 12px 14px;
+  text-decoration: none; color: var(--text); border: 2px solid transparent; transition: border-color .12s;
+}
+.lesson-card:hover { border-color: var(--sub); }
+.lesson-card.next { border-color: var(--main); }
+.lc-top { display: flex; justify-content: space-between; align-items: center; }
+.lc-num { color: var(--sub); font-size: 13px; }
+.lc-stars { color: var(--sub); letter-spacing: 1px; }
+.lesson-card.passed .lc-stars { color: var(--main); }
+.lc-title { font-size: 14px; line-height: 1.4; }
+.lc-keys { display: flex; gap: 4px; flex-wrap: wrap; min-height: 22px; }
+.lc-keys kbd { background: var(--bg); }
+.lc-best { color: var(--sub); font-size: 12px; min-height: 15px; }
+.lesson-card.next .lc-best { color: var(--main); }
+
+/* Premium хүлээлгийн жагсаалт */
+.waitlist { border: 1px dashed var(--sub); border-radius: 12px; padding: 16px 18px; margin-top: 18px; }
+.waitlist h3 { margin: 0 0 6px; color: var(--main) !important; font-size: 15px !important; font-weight: 600; }
+.waitlist p { margin: 0 0 10px; color: var(--sub) !important; font-size: 13px !important; line-height: 1.6; }
+.wl-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.wl-form .num { flex: 1 1 220px; width: auto; }
+.wl-form .opt { padding-inline: 18px; }
+.wl-msg { margin: 8px 0 0 !important; color: var(--main) !important; min-height: 0; }
+
 /* ---------- Командын мөр, цонх ---------- */
 .cmd, .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 20; display: flex; justify-content: center; align-items: flex-start; padding: 12vh 16px 16px; }
 .cmd-box, .modal-box { width: min(700px, 100%); background: var(--bg); border-radius: 10px; box-shadow: 0 20px 60px rgba(0, 0, 0, .45); overflow: hidden; }
@@ -301,4 +350,7 @@ footer { margin-top: auto; color: var(--sub); font-size: 12px; display: flex; fl
   .header-right { margin-left: 0; }
   .test-head { grid-template-columns: 1fr auto; }
   .live-spacer { display: none; }
+  .lesson-result { grid-template-columns: 1fr; }
+  .learn-progress { grid-template-columns: 1fr; }
+  .learn-progress .opt { grid-column: 1; grid-row: auto; text-align: center; }
 }

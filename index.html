@@ -27,6 +27,7 @@
       </a>
       <nav class="nav" aria-label="Menu">
         <a href="#" class="nav-btn" data-page="test" data-icon="keyboard" data-t-title="navTest"></a>
+        <a href="#learn" class="nav-btn" data-page="learn" data-icon="book" data-t-title="navLearn"></a>
         <a href="#leaderboard" class="nav-btn" data-page="leaderboard" data-icon="crown" data-t-title="navBoard"></a>
         <a href="#about" class="nav-btn" data-page="about" data-icon="info" data-t-title="navAbout"></a>
         <a href="#settings" class="nav-btn" data-page="settings" data-icon="gear" data-t-title="navSettings"></a>
@@ -80,6 +81,12 @@
         </div>
       </div>
 
+      <!-- Хичээлийн үед тестийн мөрийн оронд гарна -->
+      <div class="lesson-bar" id="lessonBar" hidden>
+        <a href="#learn" class="lesson-back" data-t="lessonBack"></a>
+        <div class="lesson-info"><h2 id="lessonTitle"></h2><p id="lessonNeed"></p></div>
+      </div>
+
       <div id="typingTest">
         <div class="test-head">
           <div class="live" id="liveRow">
@@ -110,6 +117,16 @@
 
       <!-- Үр дүн -->
       <div id="result" hidden>
+        <!-- Хичээлийн дүн -->
+        <div class="lesson-result" id="lessonResult" hidden>
+          <div class="lr-stars" id="lrStars"></div>
+          <div class="lr-text"><h2 id="lrTitle"></h2><p id="lrText"></p></div>
+          <div class="lr-actions">
+            <button type="button" class="opt" id="lrRetry" data-t="lessonRetry"></button>
+            <button type="button" class="opt primary" id="lrNext" data-t="lessonNext"></button>
+            <a class="opt" href="#learn" data-t="lessonList"></a>
+          </div>
+        </div>
         <div class="res-top">
           <div class="res-big">
             <div class="stat" id="rWpmWrap"><div class="k" id="rUnit">wpm</div><div class="v" id="rWpm">0</div></div>
@@ -125,8 +142,10 @@
           <div class="stat"><div class="k" data-t="consistency"></div><div class="v" id="rCons"></div></div>
           <div class="stat"><div class="k" data-t="timeLabel"></div><div class="v" id="rTime"></div></div>
         </div>
-        <p class="pb-line" id="rPb"></p>
-        <p class="avg-line" id="rAvg" hidden></p>
+        <div id="pbLineWrap">
+          <p class="pb-line" id="rPb"></p>
+          <p class="avg-line" id="rAvg" hidden></p>
+        </div>
         <p class="src" id="rSrc" hidden></p>
         <div class="res-actions">
           <button type="button" class="icon-btn" id="nextBtn" data-icon="next" data-t-title="next"></button>
@@ -138,6 +157,9 @@
         </div>
         <div class="words-history" id="wordsHistory" hidden></div>
 
+        <!-- "Premium удахгүй — имэйлээ үлдээ" (Firebase тохируулсан үед js/waitlist.js гаргана) -->
+        <div class="waitlist-slot" data-source="result"></div>
+
         <!-- Дэлхийн жагсаалт: Firebase тохируулсан үед л харагдана (js/leaderboard.js) -->
         <div class="board" id="board" hidden>
           <h2 class="board-title" id="boardTitle"></h2>
@@ -148,6 +170,7 @@
     </section>
 
     <!-- ===== Бусад хуудсууд (js/pages.js зурна) ===== -->
+    <section id="page-learn" class="page doc" hidden><div id="learnBody"></div></section>
     <section id="page-settings" class="page doc" hidden><h1 class="page-title" data-t="settingsTitle"></h1><div id="settingsBody"></div></section>
     <section id="page-about" class="page doc" hidden><div id="aboutBody"></div></section>
     <section id="page-stats" class="page doc" hidden><div id="statsBody"></div></section>
@@ -187,11 +210,14 @@
   <script src="js/sound.js"></script>         <!-- дуу -->
   <script src="js/chart.js"></script>         <!-- график -->
   <script src="js/keymap.js"></script>        <!-- гарын зураг -->
+  <script src="js/lessons.js"></script>       <!-- арван хуруугийн хичээлүүд -->
   <script src="js/test.js"></script>          <!-- шивэлтийн тест -->
   <script src="js/pages.js"></script>         <!-- тохиргоо, тухай, амжилт -->
   <script src="js/commandline.js"></script>   <!-- командын мөр -->
   <script src="js/app.js"></script>           <!-- бүгдийг холбоно -->
   <!-- Нэвтрэх, жагсаалт (Firebase). Тохиргоогүй бол юу ч хийхгүй. -->
   <script type="module" src="js/leaderboard.js"></script>
+  <!-- Premium-ийн хүлээлгийн жагсаалт (Firebase). Тохиргоогүй бол юу ч харуулахгүй. -->
+  <script type="module" src="js/waitlist.js"></script>
 </body>
 </html>

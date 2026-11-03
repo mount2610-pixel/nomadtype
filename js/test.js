@@ -15,6 +15,7 @@
   let S = null;            // одоогийн тестийн төлөв
   let lastWords = null;    // давтах тестэд зориулсан үгс
   let lastQuote = null;
+  let lesson = null;       // { lang, i } — арван хуруугийн хичээл явагдаж байвал
 
   // ---------- Туслахууд ----------
   const baseLang = () => C("language").split("_")[0];
@@ -105,11 +106,13 @@
     if (S && S.raf) cancelAnimationFrame(S.raf);
     if (S && S.started && !S.done) saveStats(S, false);
 
-    const m = C("mode");
-    let words, quote = null, repeated = !!opts.repeat;
+    if ("lesson" in opts) lesson = opts.lesson;
+    const m = lesson ? "lesson" : C("mode");
+    let words, quote = null, repeated = !!opts.repeat && !lesson;
     const sameQuote = !opts.repeat && m === "quote" && C("repeatQuotes") === "typing" && S && S.started && !S.done && S.quote;
 
     if (opts.repeat && lastWords) { words = lastWords.slice(); quote = S && S.quote; }
+    else if (lesson) words = NT.lessons.generate(lesson.lang, lesson.i);
     else if (sameQuote) { quote = S.quote; words = quote.text.split(" "); repeated = true; }
     else if (m === "quote") { quote = pickQuote(); words = quote.text.split(" "); }
     else if (m === "words") words = genWords(C("words"));
@@ -124,7 +127,8 @@
 
     lastQuote = quote;
     S = {
-      mode: m, mode2: mode2(), language: C("language"), lang: baseLang(),
+      mode: m, mode2: lesson ? lesson.i + 1 : mode2(),
+      language: lesson ? lesson.lang : C("language"), lang: lesson ? lesson.lang : baseLang(),
       punctuation: C("punctuation") && ["time", "words", "custom"].includes(m),
       numbers: C("numbers") && ["time", "words", "custom"].includes(m),
       words, input: [""], wi: 0, els: [], quote, repeated,
@@ -132,7 +136,7 @@
       startAt: 0, endAt: 0, keys: 0, correctKeys: 0,
       sec: { chars: 0, errors: 0 }, hist: { wpm: [], raw: [], err: [] }, nextSec: 1,
       burstFrom: 0, bursts: [], lastBurst: 0, offset: 0,
-      timer: null, raf: null, pace: paceSpeed(),
+      timer: null, raf: null, pace: lesson ? 0 : paceSpeed(),
     };
     lastWords = words.slice();
 
@@ -146,13 +150,26 @@
     inner.style.transform = "translateY(0)";
     renderAll();
     updateLive();
-    NT.keymap.render(S.lang);
-    NT.keymap.highlightNext(nextChar());
+    renderKeymap();
     $("zenHint").hidden = m !== "zen";
     $("langBtnText").textContent = langName();
+    $("langBtn").hidden = !!lesson;
+    $("testConfig").hidden = !!lesson;
+    $("lessonBar").hidden = !lesson;
+    if (lesson) {
+      const L = NT.lessons.LESSONS[lesson.lang][lesson.i];
+      $("lessonTitle").textContent = `${t("lesson")} ${lesson.i + 1}/${NT.lessons.LESSONS[lesson.lang].length} · ${tr(L.title)}`;
+      $("lessonNeed").textContent = t("lessonNeed")(NT.lessons.target(lesson.lang, lesson.i), NT.lessons.MIN_ACC);
+    }
     paceEl.hidden = true;
     emit("nt:restart", { mode: m });
     focus();
+  }
+
+  function renderKeymap() {
+    if (lesson) NT.keymap.render(S.lang, { mode: "next", fresh: NT.lessons.LESSONS[lesson.lang][lesson.i].keys });
+    else NT.keymap.render(S.lang);
+    NT.keymap.highlightNext(nextChar());
   }
 
   // ---------- Зурах ----------
@@ -540,6 +557,7 @@
   }
 
   function testLabel(s) {
+    if (s.mode === "lesson") return `${t("lesson")} ${s.mode2} · ${t("langNames")[s.language]}`;
     const parts = [`${t(s.mode)}${s.mode === "quote" ? " · " + t("quoteLen")[s.mode2] : s.mode2 && s.mode !== "custom" ? " " + s.mode2 : ""}`, t("langNames")[s.language]];
     if (s.punctuation) parts.push(t("punctuation"));
     if (s.numbers) parts.push(t("numbers"));
@@ -583,7 +601,7 @@
 
     // Дээд амжилт, түүх
     let isPb = false, prevPb = 0;
-    const valid = !S.failed && !S.repeated && S.mode !== "zen" && secs >= 1;
+    const valid = !S.failed && !S.repeated && S.mode !== "zen" && S.mode !== "lesson" && secs >= 1;
     if (valid) {
       const pbs = store.get("nt-pbs", {}), key = pbKey(S), old = pbs[key];
       prevPb = old ? old.wpm : 0;
@@ -600,6 +618,7 @@
     }
 
     showResult(result, isPb, prevPb);
+    showLessonResult(result);
     emit("nt:result", {
       lang: S.lang, language: S.language, mode: S.mode, mode2: S.mode2, seconds: S.mode === "time" ? S.mode2 : null,
       punctuation: S.punctuation, numbers: S.numbers, lazy: result.lazy, failed: S.failed,
@@ -655,7 +674,28 @@
     renderHistory();
     $("wordsHistory").hidden = !C("alwaysShowWordsHistory");
     $("practiceBtn").hidden = !missedWords().length;
+    $("pbLineWrap").hidden = false;
     $("nextBtn").focus();
+  }
+
+  // Хичээлийн дүн: тэнцсэн эсэх, од, дараагийн хичээл.
+  function showLessonResult(r) {
+    const box = $("lessonResult");
+    box.hidden = !lesson;
+    if (!lesson) return;
+    const { lang, i } = lesson;
+    const total = NT.lessons.LESSONS[lang].length;
+    const res = r.failed ? { stars: 0, passed: false } : NT.lessons.save(lang, i, r.wpm, r.acc);
+    $("lrStars").textContent = "★".repeat(res.stars) + "☆".repeat(3 - res.stars);
+    $("lrTitle").textContent = res.passed ? t("lessonPassed") : t("lessonFailed");
+    $("lrText").textContent = t("lessonNeed")(NT.lessons.target(lang, i), NT.lessons.MIN_ACC);
+    box.classList.toggle("passed", res.passed);
+    const next = $("lrNext");
+    next.hidden = !res.passed || i >= total - 1;
+    next.onclick = () => { location.hash = `lesson/${lang}/${i + 2}`; };
+    $("lrRetry").onclick = () => restart();
+    $("pbLineWrap").hidden = true;
+    (res.passed && !next.hidden ? next : $("lrRetry")).focus();
   }
 
   function renderHistory() {
@@ -736,7 +776,8 @@
 
   NT.test = {
     restart, focus, finish: () => S && !S.done && S.started && finish(),
+    inLesson: () => !!lesson,
     state: () => S, fmtSpeed, fmtAcc, unitName, pbKey, testLabel,
-    rerender() { if (S && !S.done) { renderAll(); NT.keymap.render(S.lang); NT.keymap.highlightNext(nextChar()); updateLive(); } },
+    rerender() { if (S && !S.done) { renderAll(); renderKeymap(); updateLive(); } },
   };
 })();

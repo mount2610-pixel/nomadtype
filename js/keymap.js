@@ -22,11 +22,17 @@
 
   let current = null;     // { lang, keys: Map(char → {el, shift}) }
   let nextEl = [];
+  let forced = null;      // хичээлийн үед тохиргоог үл харгалзан "next" горим
 
-  function render(lang) {
+  const mode = () => forced || config.get("keymapMode");
+
+  // opts.mode — тохиргоог дарж тогтоох горим, opts.fresh — тодруулах шинэ үсгүүд (хичээлд)
+  function render(lang, opts = {}) {
     const root = $("keymap");
     if (!root) return;
-    const mode = config.get("keymapMode");
+    forced = opts.mode || null;
+    const fresh = opts.fresh || "";
+    const mode = forced || config.get("keymapMode");
     root.hidden = mode === "off";
     root.innerHTML = "";
     current = { lang, keys: new Map() };
@@ -39,7 +45,8 @@
         const sep = def.lastIndexOf("|");
         const lo = def.slice(0, sep), up = def.slice(sep + 1);
         const shown = legend === "blank" ? "" : legend === "uppercase" ? lo.toUpperCase() : lo;
-        const el = h("div", { class: "km-key" + ((lang === "en" && (lo === "f" || lo === "j")) || (lang === "mn" && (lo === "ө" || lo === "о")) ? " bump" : "") }, shown);
+        const el = h("div", { class: "km-key" + ((lang === "en" && (lo === "f" || lo === "j")) || (lang === "mn" && (lo === "ө" || lo === "р")) ? " bump" : "") }, shown);
+        if (fresh.includes(lo)) el.classList.add("fresh");
         rowEl.appendChild(el);
         current.keys.set(lo, { el, shift: false });
         if (!current.keys.has(up)) current.keys.set(up, { el, shift: true });
@@ -56,7 +63,7 @@
   function highlightNext(ch) {
     nextEl.forEach(e => e.classList.remove("next"));
     nextEl = [];
-    if (config.get("keymapMode") !== "next") return;
+    if (mode() !== "next") return;
     const k = find(ch);
     if (!k) return;
     k.el.classList.add("next");
@@ -64,7 +71,7 @@
   }
 
   function flash(ch, ok) {
-    if (config.get("keymapMode") !== "react") return;
+    if (mode() !== "react") return;
     const k = find(ch);
     if (!k) return;
     const cls = ok ? "hit" : "miss";

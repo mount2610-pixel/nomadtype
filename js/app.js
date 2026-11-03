@@ -17,6 +17,7 @@
     return `<polygon points="${pts.map(p => p.split(",").map(n => (+n).toFixed(2)).join(",")).join(" ")}"/><circle cx="12" cy="12" r="3"/>`;
   })();
   const ICONS = {
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M6.5 17A2.5 2.5 0 0 0 4 19.5 2.5 2.5 0 0 0 6.5 22H20v-5"/>',
     keyboard: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
     crown: '<path d="M3 18h18M4 16 3 7l5 4 4-6 4 6 5-4-1 9z"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/>',
@@ -143,20 +144,29 @@
     });
   }
 
-  // ---------- Хуудас солих (#settings, #about, #stats, #leaderboard) ----------
-  const PAGES = ["test", "settings", "about", "stats", "leaderboard"];
+  // ---------- Хуудас солих (#learn, #settings, #about, #stats, #leaderboard, #lesson/mn/3) ----------
+  const PAGES = ["test", "learn", "settings", "about", "stats", "leaderboard"];
   let page = "test";
   function route() {
     const want = location.hash.replace("#", "");
-    page = PAGES.includes(want) ? want : "test";
+    const lm = want.match(/^lesson\/(mn|en)\/(\d+)$/);
+    const lessonOk = lm && +lm[2] >= 1 && +lm[2] <= NT.lessons.LESSONS[lm[1]].length;
+    page = lessonOk ? "test" : PAGES.includes(want) ? want : "test";
     PAGES.forEach(p => { $("page-" + p).hidden = p !== page; });
-    document.querySelectorAll(".nav-btn").forEach(a => a.classList.toggle("active", a.dataset.page === page));
+    document.querySelectorAll(".nav-btn").forEach(a => a.classList.toggle("active", a.dataset.page === (lessonOk ? "learn" : page)));
     document.body.classList.remove("typing");
+    if (lessonOk) { NT.test.restart({ lesson: { lang: lm[1], i: +lm[2] - 1 } }); return; }
+    if (page === "learn") NT.pages.renderLearn();
     if (page === "settings") NT.pages.renderSettings();
     if (page === "about") NT.pages.renderAbout();
     if (page === "stats") NT.pages.renderStats();
     if (page === "leaderboard") NT.pages.renderBoard();
-    if (page === "test") { const s = NT.test.state(); if (!s || !s.started || s.done) NT.test.restart(); else NT.test.focus(); }
+    if (page === "test") {
+      const s = NT.test.state();
+      if (NT.test.inLesson()) NT.test.restart({ lesson: null });
+      else if (!s || !s.started || s.done) NT.test.restart();
+      else NT.test.focus();
+    }
   }
   window.addEventListener("hashchange", route);
 
@@ -170,12 +180,15 @@
       if (page === "about") NT.pages.renderAbout();
       if (page === "stats") NT.pages.renderStats();
       if (page === "leaderboard") NT.pages.renderBoard();
+      if (page === "learn") NT.pages.renderLearn();
     } else if (page === "settings") NT.pages.refreshSettings();
     if (key === "quickRestart" || key === "theme") keyTips();
     applyToolbar();
+    const TOOLBAR = ["mode", "time", "words", "quoteLength", "punctuation", "numbers"];
     if (RESTART_KEYS.has(key)) {
-      if (page === "test") NT.test.restart();
-      else if (["mode", "time", "words", "quoteLength", "punctuation", "numbers"].includes(key)) location.hash = "";
+      if (page === "test" && NT.test.inLesson() && TOOLBAR.includes(key)) location.hash = "";
+      else if (page === "test") NT.test.restart();
+      else if (TOOLBAR.includes(key)) location.hash = "";
     } else {
       NT.test.rerender();
     }

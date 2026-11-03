@@ -33,6 +33,22 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == uid;
     }
 
+    // waitlist/{имэйл} — "Premium удахгүй" хүлээлгийн жагсаалт.
+    // Хэн ч шинэ имэйл нэмж болно, гэхдээ хэн ч уншиж, засаж, устгаж чадахгүй.
+    // (Имэйлүүдийг зөвхөн та Firebase Console-оос харна.)
+    match /waitlist/{email} {
+      allow create: if request.resource.data.keys().hasOnly(['email', 'lang', 'source', 'createdAt'])
+        && request.resource.data.email is string
+        && request.resource.data.email == email
+        && request.resource.data.email.size() <= 200
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+[.][^@\\s]+$')
+        && request.resource.data.lang in ['mn', 'en']
+        && request.resource.data.source is string
+        && request.resource.data.source.size() <= 20
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if false;
+    }
+
     // Бусад бүх зүйл хаалттай.
     match /{document=**} {
       allow read, write: if false;

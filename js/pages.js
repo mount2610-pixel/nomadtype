@@ -201,5 +201,45 @@
     if (window.NT_FIREBASE_ON) NT.emit("nt:lb-open", { ...lb, label: `${t("langNames")[lb.lang]} · ${lb.seconds}` });
   }
 
-  NT.pages = { renderSettings, refreshSettings, renderAbout, renderStats, renderBoard };
+  // ---------- Арван хуруугаар сурах ----------
+  let learnLang = null;
+  function renderLearn() {
+    const root = $("learnBody"), L = NT.lessons;
+    if (!learnLang) learnLang = C("language").split("_")[0];
+    root.innerHTML = "";
+    root.appendChild(h("h2", {}, t("learnTitle")));
+    t("learnIntro").forEach(p => root.appendChild(h("p", {}, p)));
+
+    root.appendChild(h("div", { class: "lb-bar" }, ["mn", "en"].map(l =>
+      h("button", { type: "button", class: "opt", "aria-pressed": String(learnLang === l), onclick: () => { learnLang = l; renderLearn(); } },
+        t(l === "mn" ? "courseMn" : "courseEn")))));
+
+    const list = L.LESSONS[learnLang], prog = L.progress()[learnLang] || {};
+    const done = list.filter((_, i) => prog[i] && prog[i].stars > 0).length;
+    const starSum = list.reduce((a, _, i) => a + (prog[i] ? prog[i].stars : 0), 0);
+    const nextI = L.nextIndex(learnLang);
+
+    root.appendChild(h("div", { class: "learn-progress" },
+      h("div", { class: "lp-text" }, t("lessonProgress")(done, list.length, starSum, list.length * 3)),
+      h("div", { class: "lp-bar" }, h("i", { style: `width:${(done / list.length) * 100}%` })),
+      h("a", { class: "opt primary", href: `#lesson/${learnLang}/${nextI + 1}` }, done ? t("lessonContinue") : t("lessonStart"))));
+
+    const grid = h("div", { class: "lesson-grid" });
+    list.forEach((x, i) => {
+      const p = prog[i], st = p ? p.stars : 0;
+      const chips = x.keys ? [...x.keys].map(k => h("kbd", {}, k)) : [h("span", { class: "muted" }, x.kind === "caps" ? "Shift" : x.kind === "punct" ? ", . ? 0–9" : "…")];
+      grid.appendChild(h("a", { class: "lesson-card" + (st ? " passed" : "") + (i === nextI && !st ? " next" : ""), href: `#lesson/${learnLang}/${i + 1}` },
+        h("div", { class: "lc-top" }, h("span", { class: "lc-num" }, String(i + 1)), h("span", { class: "lc-stars" }, "★".repeat(st) + "☆".repeat(3 - st))),
+        h("div", { class: "lc-title" }, tr(x.title)),
+        h("div", { class: "lc-keys" }, chips),
+        h("div", { class: "lc-best" }, p ? `${p.wpm} ${t("wpm")} · ${p.acc}%` : i === nextI ? t("lessonNextTag") : "")));
+    });
+    root.appendChild(grid);
+
+    const slot = h("div", { class: "waitlist-slot", dataset: { source: "learn" } });
+    root.appendChild(slot);
+    if (NT.waitlist) NT.waitlist.render(slot);
+  }
+
+  NT.pages = { renderSettings, refreshSettings, renderAbout, renderStats, renderBoard, renderLearn };
 })();
