@@ -9,12 +9,12 @@
 // Эдгээр утгууд нууц биш (вэб апп бүрт харагддаг). Аюулгүй байдлыг firestore.rules хамгаална.
 
 export const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyAbTWr7NgYcAbjjN4fnx60rdsvdm2UIYKI",
+  authDomain: "nomadtype-9214c.firebaseapp.com",
+  projectId: "nomadtype-9214c",
+  storageBucket: "nomadtype-9214c.firebasestorage.app",
+  messagingSenderId: "297243933634",
+  appId: "1:297243933634:web:a02fca001762111f4df45b",
 };
 
 export const firebaseEnabled = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
