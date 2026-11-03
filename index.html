@@ -202,6 +202,43 @@
     </form>
   </div>
 
+  <!-- Нэвтрэх / бүртгүүлэх цонх (js/auth.js) -->
+  <div class="modal" id="authModal" hidden>
+    <div class="modal-box auth-box" role="dialog" aria-modal="true" aria-labelledby="afTitle">
+      <button type="button" class="auth-close" id="afClose" aria-label="Close">×</button>
+      <h2 id="afTitle"></h2>
+      <div class="auth-tabs" id="afTabs">
+        <button type="button" class="opt" data-auth-tab="signin" data-t="authSignIn"></button>
+        <button type="button" class="opt" data-auth-tab="signup" data-t="authSignUp"></button>
+      </div>
+      <form id="authForm" novalidate>
+        <p class="af-hint" id="afResetHint" data-t="authResetHint"></p>
+        <label class="af-row" id="afNameRow"><span data-t="authName"></span>
+          <input id="afName" type="text" maxlength="40" autocomplete="nickname"></label>
+        <label class="af-row"><span data-t="authEmail"></span>
+          <input id="afEmail" type="email" maxlength="200" autocomplete="email" placeholder="name@gmail.com"></label>
+        <label class="af-row" id="afPassRow"><span data-t="authPass"></span>
+          <input id="afPass" type="password" maxlength="100" autocomplete="current-password"></label>
+        <label class="af-row" id="afPass2Row"><span data-t="authPass2"></span>
+          <input id="afPass2" type="password" maxlength="100" autocomplete="new-password"></label>
+        <button type="button" class="af-link" id="afForgot" data-t="authForgot"></button>
+        <p class="af-msg" id="afMsg" role="status"></p>
+        <button type="submit" class="opt primary af-submit" id="afSubmit"></button>
+        <button type="button" class="af-link" id="afBack" data-t="authBack"></button>
+      </form>
+      <div id="afGoogleWrap">
+        <div class="af-or"><span data-t="authOr"></span></div>
+        <button type="button" class="opt af-google" id="afGoogle"><b>G</b> <span data-t="authGoogle"></span></button>
+      </div>
+      <div class="af-account" id="afAccount" hidden>
+        <div class="af-who" id="afWho"></div>
+        <div class="af-email" id="afWhoEmail"></div>
+        <p class="af-hint" data-t="authSynced"></p>
+        <button type="button" class="opt" id="afSignOut" data-t="authSignOut"></button>
+      </div>
+    </div>
+  </div>
+
   <!-- Скриптүүдийн дараалал чухал -->
   <script src="js/data.js"></script>          <!-- үгс, эхүүд -->
   <script src="js/i18n.js"></script>          <!-- орчуулга -->

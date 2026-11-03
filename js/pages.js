@@ -163,7 +163,7 @@
       const acc = NT.account;
       root.appendChild(h("div", { class: "account-box" + (acc ? " on" : "") },
         h("span", {}, acc ? t("syncOn")(acc.name) : t("syncOff")),
-        acc ? null : h("button", { type: "button", class: "opt primary", onclick: () => $("authBtn").click() }, t("signIn"))));
+        acc ? null : h("button", { type: "button", class: "opt primary", onclick: () => NT.openAuth && NT.openAuth("signup") }, t("authSignUp"))));
     }
     root.appendChild(h("div", { class: "stat-row" },
       [[t("started"), st.started], [t("completed"), st.completed], [t("typingTime"), `${pad(hh)}:${pad(mm)}:${pad(ss)}`]]

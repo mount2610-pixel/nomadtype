@@ -206,6 +206,7 @@
   document.addEventListener("keydown", e => {
     if (C("capsLockWarning") && e.getModifierState) $("capsWarn").hidden = !e.getModifierState("CapsLock");
     if (NT.commandline.isOpen()) return;
+    if ($("authModal") && !$("authModal").hidden) return; // нэвтрэх цонх өөрөө товчлолоо зохицуулна
     if (!$("modal").hidden) { if (e.key === "Escape") closeModal(); return; }
 
     const qr = C("quickRestart");

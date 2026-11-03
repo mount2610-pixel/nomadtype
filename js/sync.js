@@ -80,6 +80,7 @@ if (firebaseEnabled) {
     user = u;
     NT.account = u ? { uid: u.uid, name: displayName(u) } : null;
     if (u && u.uid !== prevUid) pull();
+    else if (u) pushSoon(); // нэр солигдсон (бүртгүүлэх үед) — account-ыг шинэчилнэ
     if (!u && prevUid) {
       // Гарсан: энэ төхөөрөмж дээрх хувийн өгөгдлийг цэвэрлэнэ.
       KEYS.forEach(k => store.del(k));

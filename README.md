@@ -17,7 +17,9 @@
 - **Арван хуруугаар сурах** (📖): Монгол гарын 20, англи гарын 18 шаталсан хичээл. Хичээл бүр шинэ товч заана,
   гарын зураг дараагийн товчийг харуулна, тэнцвэл ★ од авч ахиц хадгалагдана
 - **Premium хүлээлгийн жагсаалт**: "Premium удахгүй — имэйлээ үлдээ" (Firebase тохируулсан үед харагдана)
-- Google-ээр нэвтэрч **дэлхийн жагсаалтад** орох (Firebase, заавал биш)
+- **Нэвтрэх систем**: имэйл (Gmail) + нууц үгээр бүртгүүлэх, нууц үгээ мартвал имэйлээр сэргээх, эсвэл Google-ээр нэвтрэх.
+  Нэвтэрсэн хүний амжилт, хичээлийн ахиц account дээр хадгалагдаж, бүх төхөөрөмж дээр харагдана
+- **Дэлхийн жагсаалт**: нэр нь нийтэд харагдана, эхний 10-д ороогүй бол өөрийн байраа харна (Firebase, заавал биш)
 
 ## Файлын бүтэц
 
@@ -40,9 +42,10 @@ nomadtype/
 │   ├── commandline.js      ← командын мөр
 │   ├── app.js              ← бүгдийг холбоно (цэс, товчлол)
 │   ├── firebase-config.js  ← Firebase түлхүүр (хоосон бол жагсаалт идэвхгүй)
-│   ├── auth.js             ← Google-ээр нэвтрэх
+│   ├── auth.js             ← нэвтрэх, бүртгүүлэх, нууц үг сэргээх
 │   ├── leaderboard.js      ← дэлхийн жагсаалт
-│   └── waitlist.js         ← Premium-ийн хүлээлгийн жагсаалт (имэйл цуглуулах)
+│   ├── waitlist.js         ← Premium-ийн хүлээлгийн жагсаалт (имэйл цуглуулах)
+│   └── sync.js             ← account дээр амжилт хадгалах
 ├── images/
 │   ├── logo.svg
 │   └── favicon.svg
@@ -77,7 +80,7 @@ nomadtype/
 ## 3. Дэлхийн жагсаалт асаах (Firebase, заавал биш)
 
 1. https://console.firebase.google.com → **Add project** → нэр: `nomadtype`.
-2. **Build → Authentication → Get started → Sign-in method → Google** → Enable.
+2. **Build → Authentication → Get started → Sign-in method** → **Email/Password**-ийг Enable, **Google**-ийг Enable.
 3. **Authentication → Settings → Authorized domains** хэсэгт сайтынхаа домэйныг нэмнэ
    (`<таны-нэр>.github.io`, `nomadtype.com`). Live Server-ээр турших бол `127.0.0.1`-ийг ч нэмнэ.
 4. **Build → Firestore Database → Create database** (Production mode, байршил: `asia-northeast3` Сөүл).

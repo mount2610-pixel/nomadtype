@@ -306,6 +306,31 @@ kbd { font-family: var(--f-mono); background: var(--sub-alt); border-radius: 5px
 .account-box .opt { padding-inline: 16px; }
 .board-list li.gap { background: none !important; color: var(--sub); text-align: center; display: block; padding: 2px; }
 
+/* Нэвтрэх цонх */
+.auth-btn.signed-in { color: var(--main); }
+.modal-box.auth-box { position: relative; width: min(440px, 100%); gap: 14px; }
+.auth-close { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: var(--sub); font-size: 24px; cursor: pointer; line-height: 1; }
+.auth-close:hover { color: var(--text); }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+#authForm { display: flex; flex-direction: column; gap: 12px; }
+.af-row { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--sub); }
+.af-row input { background: var(--sub-alt); border: 0; border-radius: 8px; padding: 11px 12px; font-size: 15px; color: var(--text); }
+.af-row input:focus { outline: 2px solid var(--main); }
+.af-link { background: none; border: 0; padding: 0; color: var(--sub); font-size: 13px; cursor: pointer; text-align: left; text-decoration: underline; }
+.af-link:hover { color: var(--text); }
+.af-hint { margin: 0; color: var(--sub); font-size: 13px; line-height: 1.5; }
+.af-msg { margin: 0; color: var(--error); font-size: 13px; line-height: 1.5; min-height: 0; }
+.af-msg:empty { display: none; }
+.af-msg.ok { color: var(--main); }
+.af-submit { padding: 12px; font-size: 15px; }
+.af-or { display: flex; align-items: center; gap: 10px; color: var(--sub); font-size: 12px; margin-bottom: 10px; }
+.af-or::before, .af-or::after { content: ""; flex: 1; height: 1px; background: var(--sub-alt); }
+.af-google { width: 100%; padding: 11px; font-size: 14px; }
+.af-google b { color: var(--main); }
+.af-account { display: flex; flex-direction: column; gap: 8px; }
+.af-who { font-size: 20px; color: var(--main); font-weight: 600; }
+.af-email { color: var(--sub); font-size: 13px; }
+
 /* Premium хүлээлгийн жагсаалт */
 .waitlist { border: 1px dashed var(--sub); border-radius: 12px; padding: 16px 18px; margin-top: 18px; }
 .waitlist h3 { margin: 0 0 6px; color: var(--main) !important; font-size: 15px !important; font-weight: 600; }
