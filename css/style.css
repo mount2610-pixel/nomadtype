@@ -146,6 +146,26 @@ a { color: inherit; }
 }
 .km-key.bump { box-shadow: inset 0 -3px 0 var(--sub); }
 .km-space { width: 16em; }
+/* Хурууны өнгө (бүх загварт ижил) */
+.fc-lp, .fc-rp { --fc: #A78BFA; }
+.fc-lr, .fc-rr { --fc: #60A5FA; }
+.fc-lm, .fc-rm { --fc: #34D399; }
+.fc-li, .fc-ri { --fc: #FBBF24; }
+.fc-th { --fc: #F472B6; }
+.km-board.fingers .km-key { background: color-mix(in srgb, var(--fc) 22%, var(--sub-alt)); color: var(--text); box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--fc) 70%, transparent); }
+.km-board.fingers .km-key.bump { box-shadow: inset 0 -3px 0 var(--fc), inset 0 -7px 0 color-mix(in srgb, var(--text) 35%, transparent); }
+.km-key.km-shift { width: 4.2em; font-size: 12px; }
+.km-key.home { outline: 2px solid var(--text); outline-offset: -2px; }
+.km-hands { width: min(440px, 92%); height: auto; margin-top: 6px; }
+.km-hands .palm { fill: var(--sub-alt); }
+.km-hands .finger { fill: var(--fc); opacity: .85; transition: opacity .12s; }
+.km-hands.has-active .finger { opacity: .18; }
+.km-hands.has-active .finger.active { opacity: 1; stroke: var(--text); stroke-width: 3; }
+.km-hint { margin: 0; color: var(--text); font-size: 14px; min-height: 20px; text-align: center; }
+.km-board { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.km-board.fingers .km-key.next { background: var(--fc); color: #111; box-shadow: 0 0 0 3px var(--text); }
+.km-board.fingers .km-key.hit { background: var(--main); color: var(--bg); }
+.km-board.fingers .km-key.miss { background: var(--error); color: var(--bg); }
 .km-key.next { background: var(--main); color: var(--bg); }
 .km-key.hit { background: var(--main); color: var(--bg); transition: none; }
 .km-key.miss { background: var(--error); color: var(--bg); transition: none; }
@@ -330,6 +350,19 @@ kbd { font-family: var(--f-mono); background: var(--sub-alt); border-radius: 5px
 .af-account { display: flex; flex-direction: column; gap: 8px; }
 .af-who { font-size: 20px; color: var(--main); font-weight: 600; }
 .af-email { color: var(--sub); font-size: 13px; }
+
+/* Хурууны байрлалын заавар */
+.pos-guide { background: var(--sub-alt); border-radius: 12px; padding: 16px 18px; margin: 10px 0 18px; }
+.pos-guide h3 { margin: 0 0 12px !important; color: var(--main) !important; font-size: 17px !important; font-weight: 600; }
+.km-guide { margin-top: 0; }
+.km-guide .km-key { font-size: 13px; }
+.pos-guide .km-board.fingers .km-key { background: color-mix(in srgb, var(--fc) 30%, var(--bg)); }
+.pos-guide .km-hands .palm { fill: var(--bg); }
+.pos-legend-title { text-align: center; color: var(--sub) !important; font-size: 12.5px !important; margin: 8px 0 4px !important; }
+.pos-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; font-size: 13px; color: var(--text); }
+.pos-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.pos-legend i { width: 12px; height: 12px; border-radius: 3px; background: var(--fc); display: inline-block; }
+.pos-steps { margin: 14px 0 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.6; color: var(--text); }
 
 /* Premium хүлээлгийн жагсаалт */
 .waitlist { border: 1px dashed var(--sub); border-radius: 12px; padding: 16px 18px; margin-top: 18px; }

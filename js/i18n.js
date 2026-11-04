@@ -120,6 +120,19 @@ window.NT_I18N = {
     lessonNextTag: "дараагийн", lessonStart: "Эхлэх", lessonContinue: "Үргэлжлүүлэх",
     courseMn: "Монгол гар (кирилл)", courseEn: "Англи гар (QWERTY)",
 
+    // Хурууны байрлал
+    fingerNames: { lp: "зүүн гарын чигчий", lr: "зүүн гарын ядам", lm: "зүүн гарын дунд хуруу", li: "зүүн гарын долоовор",
+      ri: "баруун гарын долоовор", rm: "баруун гарын дунд хуруу", rr: "баруун гарын ядам", rp: "баруун гарын чигчий", th: "эрхий хуруу" },
+    posTitle: "Хурууны зөв байрлал",
+    posSteps: [
+      "Хуруунуудаа дунд эгнээнд тавина: зүүн гар — й ы б ө, баруун гар — р о л д. Тодруулсан товчнууд нь хурууны \"гэр\".",
+      "Долоовор хуруунууд товгор тэмдэгтэй ө ба р товч дээр байна. Гар руугаа харалгүй, товгороор нь олно.",
+      "Товч бүрийг өөрийн өнгөтэй хуруугаар л дарна. Дарсны дараа хуруугаа буцааж \"гэр\" дээрээ тавина.",
+      "Зайг эрхий хуруугаар, том үсгийг нөгөө гарын чигчийгээр Shift дарж бичнэ.",
+      "Нуруугаа тэгш, тохойгоо 90° орчим, бугуйгаа ширээн дээр биш агаарт сул байлгана. Дэлгэц нүднээс доогуур байна.",
+    ],
+    posLegend: "Өнгө = аль хуруугаар дарах",
+
     // Premium хүлээлгийн жагсаалт
     wlTitle: "NomadType Premium удахгүй",
     wlDesc: "Өдөр бүрийн сургалтын төлөвлөгөө, алдаатай товчлуурын шинжилгээ, ахицын дэлгэрэнгүй статистик, тэмцээн. Имэйлээ үлдээвэл нээгдэхэд хамгийн түрүүнд мэдэгдэж, эхний хэрэглэгчийн хөнгөлөлт авна.",
@@ -235,6 +248,18 @@ window.NT_I18N = {
     lessonProgress: (d, n, s, m) => `${d} of ${n} lessons passed · ★ ${s}/${m}`,
     lessonNextTag: "next", lessonStart: "Start", lessonContinue: "Continue",
     courseMn: "Mongolian (Cyrillic)", courseEn: "English (QWERTY)",
+
+    fingerNames: { lp: "left pinky", lr: "left ring finger", lm: "left middle finger", li: "left index finger",
+      ri: "right index finger", rm: "right middle finger", rr: "right ring finger", rp: "right pinky", th: "thumb" },
+    posTitle: "Correct finger position",
+    posSteps: [
+      "Rest your fingers on the home row: left hand on й ы б ө (A S D F), right hand on р о л д (J K L ;). The outlined keys are each finger's \"home\".",
+      "Your index fingers sit on the keys with small bumps (ө and р on Mongolian, F and J on English). Find them by touch, not by looking.",
+      "Press each key only with the finger of its color, then return the finger to its home key.",
+      "Press space with your thumb, and Shift with the pinky of the other hand for capital letters.",
+      "Sit up straight, elbows at about 90°, wrists relaxed and not resting on the desk, screen slightly below eye level.",
+    ],
+    posLegend: "Color = which finger presses it",
 
     wlTitle: "NomadType Premium is coming",
     wlDesc: "Daily practice plans, weak-key analysis, detailed progress stats and competitions. Leave your email to hear first when it opens and get an early-user discount.",

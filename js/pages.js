@@ -221,6 +221,15 @@
       h("button", { type: "button", class: "opt", "aria-pressed": String(learnLang === l), onclick: () => { learnLang = l; renderLearn(); } },
         t(l === "mn" ? "courseMn" : "courseEn")))));
 
+    // Хурууны зөв байрлалын заавар: өнгөтэй гарын зураг + хоёр гар + алхмууд.
+    const legend = h("div", { class: "pos-legend" }, ["lp", "lr", "lm", "li", "th"].map(f =>
+      h("span", {}, h("i", { class: `fc-${f}` }), t("fingerNames")[f].replace(/^(зүүн гарын |left )/, ""))));
+    root.appendChild(h("section", { class: "pos-guide" },
+      h("h3", {}, t("posTitle")),
+      NT.keymap.guide(learnLang),
+      h("p", { class: "pos-legend-title" }, t("posLegend")), legend,
+      h("ol", { class: "pos-steps" }, t("posSteps").map(x => h("li", {}, x)))));
+
     const list = L.LESSONS[learnLang], prog = L.progress()[learnLang] || {};
     const done = list.filter((_, i) => prog[i] && prog[i].stars > 0).length;
     const starSum = list.reduce((a, _, i) => a + (prog[i] ? prog[i].stars : 0), 0);

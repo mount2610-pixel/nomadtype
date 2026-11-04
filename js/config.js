@@ -96,6 +96,7 @@
     { key: "fontSize", group: "appearance", options: [0.85, 1, 1.25, 1.5, 2], title: { mn: "үсгийн хэмжээ", en: "font size" }, desc: { mn: "Тестийн үсгийн хэмжээ.", en: "Size of the test text." } },
     { key: "fontFamily", group: "appearance", type: "fonts", options: FONTS, title: { mn: "фонт", en: "font family" }, desc: { mn: "Бүх фонт монгол ө, ү үсгийг дэмжинэ.", en: "All fonts support Mongolian ө and ү." } },
     { key: "keymapMode", group: "appearance", options: ["off", "static", "react", "next"], title: { mn: "гарын зураг", en: "keymap" }, desc: { mn: "Тестийн доор гарын зураг гаргана. \"Дараагийн\" нь дарах ёстой товчийг тодруулна — арван хуруугаар сурахад тустай.", en: "Shows a keyboard below the test. \"Next\" highlights the key to press — great for learning touch typing." } },
+    { key: "keymapFingers", group: "appearance", options: B, title: { mn: "хурууны өнгө, гарын зураг", en: "finger colors and hands" }, desc: { mn: "Гарын зураг дээр товч бүрийг аль хуруугаар дарахыг өнгөөр ялгаж, доор нь хоёр гарын зураг гаргаж дараагийн хурууг тодруулна.", en: "Colors each key by the finger that should press it and shows two hands below, highlighting the next finger." } },
     { key: "keymapLegendStyle", group: "appearance", options: ["lowercase", "uppercase", "blank"], title: { mn: "гарын зургийн үсэг", en: "keymap legend style" }, desc: { mn: "Гарын зураг дээрх үсгийн хэлбэр.", en: "How letters are shown on the keymap." } },
 
     // ----- загвар -----
@@ -127,7 +128,7 @@
     smoothCaret: "medium", caretStyle: "line", paceCaret: "off", paceCaretStyle: "line",
     timerStyle: "mini", liveSpeedStyle: "mini", liveAccStyle: "off", liveBurstStyle: "off",
     typingSpeedUnit: "wpm", alwaysShowDecimalPlaces: false, startGraphsAtZero: true, smoothLineScroll: false,
-    fontSize: 1, fontFamily: "JetBrains Mono", keymapMode: "off", keymapLegendStyle: "lowercase",
+    fontSize: 1, fontFamily: "JetBrains Mono", keymapMode: "off", keymapFingers: true, keymapLegendStyle: "lowercase",
     theme: "nomad", randomTheme: false, flipTestColors: false, colorfulMode: false,
     showKeyTips: true, showOutOfFocusWarning: true, capsLockWarning: true, showAverage: "off", hideUiWhileTyping: true,
   };
